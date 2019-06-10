@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    #message{
+        width:300px;
+        height:150px;
+    }
+    </style>
+</head>
+<body>
+    <textarea id="message"></textarea>
+    <button id="upload">生成链接</button>
+    <script>
+    (function(){
+        document.getElementById('upload').addEventListener('click',function(){
+            let request = new XMLHttpRequest()
+            let temp = document.getElementById('message').value
+            let jstp = JSON.stringify({name:temp})
+request.onreadystatechange = () =>{
+    if(request.readyState === 4){
+        if(request.status >= 200 && request.status < 300){
+            let string = request.responseText
+            var p = document.createElement("p");
+            p.innerText = 'http://localhost:88/all?filename=' + string
+            document.getElementsByTagName('body')[0].append(p)
+            console.log(string)
+        }else if(request.status >= 400){
+            console.log('fail')
+        }
+    }
+}
+request.open('POST','http://localhost:88')
+//发送GET请求 默认第三个参数为true异步 设置第一部分
+request.setRequestHeader('Content-Type','application/json')
+//open()和send()之间 设置第二部分
+request.send(jstp)
+//用于实际发出HTTP请求 设置第四部分
+        })
+    }())
+    </script>
+</body>
+</html>
