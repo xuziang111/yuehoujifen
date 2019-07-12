@@ -4,19 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>阅后即焚</title>
+    <link rel='icon' href="favicon.ico">
     <style>
     #message{
         width:300px;
         height:150px;
+        resize:none;
+    }
+    input{
+        width:400px;
     }
     </style>
 </head>
 <body>
     <textarea id="message"></textarea>
     <button id="upload">生成链接</button>
+    <p>链接被点击一次后就会失效。</p>
+    <p>请在浏览器中打开，不要在qq中点击链接。</p>
     <script>
     (function(){
+        let i = 0
+        function copyValue(){
+            var temp = document.getElementById("copyContent");
+            temp.select(); // 选中要复制的内容
+            document.execCommand("Copy"); // 核心代码，复制选中的内容到剪切板
+            alert("复制成功");
+        }       
+
+
         document.getElementById('upload').addEventListener('click',function(){
             let request = new XMLHttpRequest()
             let temp = document.getElementById('message').value
@@ -25,16 +41,38 @@ request.onreadystatechange = () =>{
     if(request.readyState === 4){
         if(request.status >= 200 && request.status < 300){
             let string = request.responseText
-            var p = document.createElement("p");
-            p.innerText = 'http://localhost:88/all?filename=' + string
-            document.getElementsByTagName('body')[0].append(p)
+            var pc = document.createElement("div");
+            var p = document.createElement("input");
+            var bt = document.createElement("button");
+            p.type = 'text'
+            p.value = 'http://lolimy.cf:88/all?filename=' + string
+            pc.id = 'pc'+i
+            console.log(pc)
+            p.id = 'p'+i
+            bt.id = 'bt'+i
+            
+            // p.innerText = 'http://localhost:88/all?filename=' + string
+            //<input type='text' readonly value="要复制的内容" id="copyContent">
+            document.getElementsByTagName('body')[0].append(pc)
+            document.getElementById('pc'+i).append(p)
+            document.getElementById('pc'+i).append(bt)
+            document.getElementById('bt'+i).append('点击复制')
+            let tempid = 'p'+i
+            document.getElementById('bt'+i).addEventListener('click',function(){
+                var temp = document.getElementById(tempid);
+                console.log(temp)
+                temp.select(); // 选中要复制的内容
+                document.execCommand("Copy"); // 核心代码，复制选中的内容到剪切板
+                alert("复制成功");
+            })
+            i++
             console.log(string)
         }else if(request.status >= 400){
             console.log('fail')
         }
     }
 }
-request.open('POST','http://localhost:88')
+request.open('POST','http://lolimy.cf:88')
 //发送GET请求 默认第三个参数为true异步 设置第一部分
 request.setRequestHeader('Content-Type','application/json')
 //open()和send()之间 设置第二部分

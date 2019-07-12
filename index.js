@@ -19,6 +19,7 @@ app.listen(88, () => {
     // res.end()
   })
   app.use(bodyParser.json());
+  // app.use(express.favicon())
   app.post('/', (req, res) => {
 
     console.log(req.body)
