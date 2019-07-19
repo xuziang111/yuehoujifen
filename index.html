@@ -19,7 +19,8 @@
 </head>
 <body>
     <textarea id="message"></textarea>
-    <button id="upload">生成链接</button>
+    <button id="upload">生成查询代码</button>
+    <p>查询页面<a href="http://lolimy.cf:88/search">http://lolimy.cf:88/search</a></p>
     <p>链接被点击一次后就会失效。</p>
     <p>请在浏览器中打开，不要在qq中点击链接。</p>
     <script>
@@ -45,11 +46,9 @@ request.onreadystatechange = () =>{
             var p = document.createElement("input");
             var bt = document.createElement("button");
             p.type = 'text'
-<<<<<<< HEAD
-            p.value = 'http://lolimy.cf:88/all?filename=' + string
-=======
-            p.value = 'http://localhost:88/all?filename=' + string
->>>>>>> af6506d5ee8fbbc64c2de3e208490d08f4908a05
+
+            p.value = string
+
             pc.id = 'pc'+i
             console.log(pc)
             p.id = 'p'+i
@@ -76,7 +75,7 @@ request.onreadystatechange = () =>{
         }
     }
 }
-request.open('POST','http://lolimy.cf:88')
+request.open('POST','http://127.0.0.1:88')
 //发送GET请求 默认第三个参数为true异步 设置第一部分
 request.setRequestHeader('Content-Type','application/json')
 //open()和send()之间 设置第二部分

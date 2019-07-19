@@ -44,21 +44,45 @@ app.listen(88, () => {
 
   })
 
-  app.get('/all', (req, res) => {
-    let filename = req.query.filename
-
-    try{
-      string = fs.readFileSync('./Public/' + filename,'utf-8')
-      console.log(string)
-      res.set({
-        'Content-Type': 'text/plain',
-      });
+  app.get('/search', (req, res) => {
+    if(!req.query.filename){
+      let string = fs.readFileSync('./search.html','utf-8')
       res.send(string)
-      fs.unlinkSync('./Public/' + filename)
-    }catch(err){
-      console.log(err)
-      res.send(`<h1>该链接已被浏览过或不存在</h1>`)
+    }else{
+      console.log('filename')
+      let filename = req.query.filename
+      console.log(filename)
+      try{
+        string = fs.readFileSync('./Public/' + filename,'utf-8')
+        console.log(string)
+        res.set({
+          'Content-Type': 'text/plain',
+        });
+        res.send(string)
+        fs.unlinkSync('./Public/' + filename)
+      }catch(err){
+        console.log(err)
+        res.send(`<h1>该链接已被浏览过或不存在</h1>`)
+      }
     }
+    // res.end()
+  })
+
+  app.get('/searc', (req, res) => {
+    // let filename = req.query.filename
+    // console.log(filename)
+    // try{
+    //   string = fs.readFileSync('./Public/' + filename,'utf-8')
+    //   console.log(string)
+    //   res.set({
+    //     'Content-Type': 'text/plain',
+    //   });
+    //   res.send(string)
+    //   fs.unlinkSync('./Public/' + filename)
+    // }catch(err){
+    //   console.log(err)
+    //   res.send(`<h1>该链接已被浏览过或不存在</h1>`)
+    // }
 
     // res.send('未找到或已被读取。')
     // fs.open('./Public/' + filename, 'r', (err, fd) => {
